@@ -9,10 +9,12 @@ $database_config_file = $installdir.'/application/config/database.php';
 $bitcoin_config_file = $installdir.'/application/config/bitcoin.php';
 $config_config_file = $installdir.'/application/config/config.php';
 $storage_directory = $installdir.'/application/storage/';
-
 // Die if there appears to be contents in the config files.
 if(strlen(@file_get_contents($config_config_file)) > 20 && strlen(@file_get_contents($bitcoin_config_file)) > 20 && strlen(@file_get_contents($database_config_file)) > 20 && $_SERVER['QUERY_STRING'] !== 'end')
+{
+	echo "doone";
 	die();
+}	
 
 // Modules which must be installed.
 $check['mcrypt_module'] 	= ( ! function_exists('mcrypt_encrypt')) ? FALSE : TRUE;
@@ -33,9 +35,16 @@ if(!is_dir($installdir.'/vendor'))
 	
 // Work out if the environment is ready for the installer.
 $environment_check = TRUE; 
+echo "<h4>";
 foreach($check as $key => $outcome) {
-	$environment_check &= $outcome;
+	echo "Is ". $key . "installed? ";
+	echo "&nbsp;";
+	if ($outcome)
+		echo "Yes! All good.<br>";
+	else
+		echo "No! Please install " . $key . "<br>";
 }
+echo "</h4>";
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
